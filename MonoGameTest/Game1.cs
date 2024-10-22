@@ -9,6 +9,10 @@ namespace MonoGameTest
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private Model _sphereModel;
+        private Texture2D _rainbowTexture;
+        private BasicEffect _effect;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -27,7 +31,16 @@ namespace MonoGameTest
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            _sphereModel = Content.Load<Model>("Models/Sphere");
+            _rainbowTexture = Content.Load<Texture2D>("Textures/Rainbow");
+
+            _effect = new BasicEffect(GraphicsDevice)
+            {
+                TextureEnabled = true,
+                Texture = _rainbowTexture,
+                LightingEnabled = false,
+                VertexColorEnabled = false
+            };
         }
 
         protected override void Update(GameTime gameTime)
@@ -44,7 +57,18 @@ namespace MonoGameTest
         {
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            foreach (var mesh in _sphereModel.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.World = Matrix.CreateTranslation(Vector3.Zero);
+                    effect.View = Matrix.CreateLookAt(new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up);
+                    effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, GraphicsDevice.Viewport.AspectRatio, 0.1f, 100f);
+                    effect.Texture = _rainbowTexture;
+                    effect.TextureEnabled = true;
+                }
+                mesh.Draw();
+            }
 
             base.Draw(gameTime);
         }
