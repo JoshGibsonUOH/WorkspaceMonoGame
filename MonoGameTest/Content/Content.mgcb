@@ -12,14 +12,3 @@
 
 #---------------------------------- Content ---------------------------------#
 
-# Begin 3D sphere model
-# Model: Sphere
-# Path: Models/Sphere.fbx
-/processor:ModelProcessor
-/build:Models/Sphere.fbx
-
-# Begin rainbow texture
-# Texture: Rainbow
-# Path: Textures/Rainbow.png
-/processor:TextureProcessor
-/build:Textures/Rainbow.png
